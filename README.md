@@ -17,8 +17,8 @@ export PIVX_CLI_PATH='/path/to/pivx/bin/pivx-cli'
 
 `pivx-sync-monitor.sh` has the following dependencies:
 
-- bc
-- curl
+- `bc`
+- `curl`
 
 If these dependences do not exist in your path, the script will throw an error and have an exit code of `1`.
 
