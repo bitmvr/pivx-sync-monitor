@@ -12,6 +12,14 @@ pivx::syncmon::depCheck() {
     return 0
 }
 
+pivx::syncmon::isPIVXServ() {
+  if ! ps aux | grep -Ei "pivxd -server|pivx-qt -server" | grep -iv 'grep' > /dev/null 2>&1; then
+    echo "ERROR: pivxd or pivx-qt is not running or is running but was started without the -server option"
+    exit 1
+  fi
+  return 0
+}
+
 pivx::syncmon::getLocalBlockHeight() {
     local pivx_path="${PIVX_PATH:-/opt/pivx/bin/pivx-cli}"
     "$pivx_path" getblockcount
@@ -28,8 +36,10 @@ pivx::syncmon::getPercentComplete() {
 
 pivx::syncmon::main() {
     if pivx::syncmon::depCheck; then
-        pivx::syncmon::getPercentComplete
-        return 0
+        if pivx::syncmon::isPIVXServ; then
+          pivx::syncmon::getPercentComplete
+          return 0
+        fi
     fi
 }
 
